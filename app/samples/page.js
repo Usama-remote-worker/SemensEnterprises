@@ -1,0 +1,1 @@
+'use client'; export default function Page() { return <div style={{padding: '150px 0', textAlign: 'center'}}><h1>SAMPLES PAGE</h1><p>Under Development - Seamens Enterprises Premium Experience Coming Soon.</p></div>; }
