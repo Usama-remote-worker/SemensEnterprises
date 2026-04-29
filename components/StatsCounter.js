@@ -1,38 +1,70 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 
-export default function StatsCounter({ target, label, suffix = "+" }) {
+export default function StatsCounter({ target, label, suffix }) {
   const [count, setCount] = useState(0);
-  const [started, setStarted] = useState(false);
-  const ref = useRef(null);
+  const countRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting && !started) setStarted(true); },
-      { threshold: 0.3 }
+      ([entry]) => {
+        if (entry.isIntersecting) setIsVisible(true);
+      },
+      { threshold: 0.1 }
     );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [started]);
+
+    if (countRef.current) observer.observe(countRef.current);
+    return () => { if (countRef.current) observer.unobserve(countRef.current); };
+  }, []);
 
   useEffect(() => {
-    if (!started) return;
+    if (!isVisible) return;
+    
     let start = 0;
     const duration = 2000;
-    const steps = 60;
-    const increment = target / steps;
+    const increment = target / (duration / 16);
+    
     const timer = setInterval(() => {
       start += increment;
-      if (start >= target) { setCount(target); clearInterval(timer); }
-      else setCount(Math.floor(start));
-    }, duration / steps);
+      if (start >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+
     return () => clearInterval(timer);
-  }, [started, target]);
+  }, [isVisible, target]);
 
   return (
-    <div className="stat-card" ref={ref}>
-      <span className="stat-number" style={{ fontSize: '3.5rem', fontWeight: '800', color: 'var(--primary)', fontFamily: 'Montserrat, sans-serif', display: 'block' }}>{count}{suffix}</span>
-      <span className="stat-label" style={{ fontSize: '1rem', fontWeight: '600', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>{label}</span>
+    <div ref={countRef} className="stat-card">
+      <div className="stat-number">{count}{suffix}</div>
+      <div className="stat-label">{label}</div>
+      
+      <style jsx>{`
+        .stat-card {
+          padding: 10px;
+        }
+        .stat-number {
+          font-size: clamp(2.5rem, 8vw, 3.5rem);
+          font-weight: 800;
+          color: #00A19D;
+          font-family: 'Montserrat', sans-serif;
+          margin-bottom: 8px;
+        }
+        .stat-label {
+          font-size: clamp(0.8rem, 3vw, 0.95rem);
+          font-weight: 600;
+          color: rgba(255,255,255,0.7);
+          text-transform: uppercase;
+          letter-spacing: 1.5px;
+        }
+        @media (max-width: 768px) {
+          .stat-number { margin-bottom: 5px; }
+        }
+      `}</style>
     </div>
   );
 }
