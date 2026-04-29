@@ -14,6 +14,15 @@ export default function RootLayout({ children }) {
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <a 
+          href="https://wa.me/923054444125" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="whatsapp-float"
+          aria-label="Contact on WhatsApp"
+        >
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
+        </a>
       </body>
     </html>
   );
