@@ -6,39 +6,96 @@ export default function Home() {
   return (
     <div style={{ backgroundColor: '#fff' }}>
       {/* Hero Section */}
-      <section style={{
-        minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center',
-        background: 'url("https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80")',
-        backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed',
-        textAlign: 'center', position: 'relative', padding: '120px 0 80px'
-      }}>
+      <section className="hero-section">
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(255,255,255,0.85)', zIndex: 1 }} />
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div className="fade-in">
-            <h1 style={{ fontSize: 'clamp(2.5rem, 8vw, 4.8rem)', marginBottom: '1.5rem', textTransform: 'uppercase', lineHeight: '1', fontWeight: '900', color: '#111', letterSpacing: '-2px' }}>
-              Revolutionizing <span style={{ color: '#00A19D' }}>Chemical</span><br className="desktop-only" />
+            <h1 className="hero-title">
+              Revolutionizing <span style={{ color: '#00A19D' }}>Chemical</span><br />
               <span style={{ color: '#00A19D' }}>Technologies</span> For Industry
             </h1>
-            <p style={{ fontSize: 'clamp(1rem, 4vw, 1.25rem)', maxWidth: '850px', margin: '0 auto 3rem', lineHeight: '1.8', color: '#333', fontWeight: '500' }}>
+            <p className="hero-subtitle">
               Manufacturer of precision-engineered water treatment chemical technologies serving Spinning, Weaving (Sizing), Dyeing, Finishing, Sugar, Paper, Cement, Leather, and Food industries.
             </p>
-            <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="/products" className="btn btn-primary" style={{ minWidth: '220px' }}>EXPLORE PRODUCTS</a>
-              <a href="https://wa.me/923054444125" className="btn btn-outline" style={{ minWidth: '220px' }} target="_blank" rel="noopener noreferrer">
+            <div className="hero-actions">
+              <a href="/products" className="btn btn-primary">EXPLORE PRODUCTS</a>
+              <a href="https://wa.me/923054444125" className="btn btn-outline" target="_blank" rel="noopener noreferrer">
                 GET IN TOUCH
               </a>
             </div>
           </div>
         </div>
         <style jsx>{`
+          .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: url("https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            text-align: center;
+            position: relative;
+            padding: 140px 0 100px;
+            width: 100%;
+          }
+          .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4.8rem);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            line-height: 1.1;
+            font-weight: 900;
+            color: #111;
+            letter-spacing: -2px;
+          }
+          .hero-subtitle {
+            font-size: clamp(1rem, 4vw, 1.25rem);
+            max-width: 850px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            color: #333;
+            font-weight: 500;
+          }
+          .hero-actions {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+          }
           @media (max-width: 768px) {
-            .desktop-only { display: none; }
+            .hero-section {
+              padding: 100px 20px 80px;
+              background-attachment: scroll;
+              min-height: 100vh;
+              height: auto;
+            }
+            .hero-title {
+              font-size: clamp(1.5rem, 10vw, 2.2rem);
+              letter-spacing: -1px;
+              line-height: 1.2;
+              margin-bottom: 1.2rem;
+            }
+            .hero-subtitle {
+              margin-bottom: 2.5rem;
+              font-size: 1rem;
+              padding: 0 5px;
+            }
+            .hero-actions {
+              gap: 1rem;
+              flex-direction: column;
+              align-items: center;
+            }
+            .hero-actions :global(.btn) {
+              width: 100% !important;
+              max-width: 300px;
+            }
           }
         `}</style>
       </section>
 
       {/* Stats Section */}
-      <section style={{ padding: '80px 0', background: 'linear-gradient(135deg, #001e3c, #001122)', color: 'white', position: 'relative', zIndex: 5 }}>
+      <section style={{ padding: 'clamp(60px, 10vw, 100px) 0', background: 'linear-gradient(135deg, #001e3c, #001122)', color: 'white', position: 'relative', zIndex: 5 }}>
         <div className="container">
           <div className="stats-grid">
             <StatsCounter target={80} label="Industries Served" suffix="+" />

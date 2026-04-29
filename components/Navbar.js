@@ -6,18 +6,48 @@ import TransparentLogo from './TransparentLogo';
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [logoHeight, setLogoHeight] = useState("85px");
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      if (window.scrollY > 20) {
+        setLogoHeight(mobile ? "50px" : "60px");
+      } else {
+        setLogoHeight(mobile ? "65px" : "85px");
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial check
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
+  useEffect(() => {
+    // Also update logo height when isScrolled changes
+    const mobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    setLogoHeight(isScrolled ? (mobile ? "50px" : "60px") : (mobile ? "65px" : "85px"));
+  }, [isScrolled]);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isMenuOpen]);
+
   const navStyle = {
-    position: 'fixed', top: 0, left: 0, right: 0, zIndex: 4000,
-    padding: isScrolled ? '10px 0' : '20px 0',
-    background: (isScrolled || isMenuOpen) ? 'rgba(255,255,255,0.98)' : 'transparent',
-    backdropFilter: (isScrolled || isMenuOpen) ? 'blur(15px)' : 'none',
+    position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000000,
+    padding: isScrolled ? '8px 0' : (typeof window !== 'undefined' && window.innerWidth < 768 ? '12px 0' : '20px 0'),
+    background: (isScrolled || isMenuOpen) ? '#ffffff' : 'transparent',
     transition: 'all 0.4s ease',
     borderBottom: (isScrolled || isMenuOpen) ? '1px solid rgba(0,0,0,0.05)' : 'none',
     boxShadow: (isScrolled || isMenuOpen) ? '0 4px 30px rgba(0,0,0,0.08)' : 'none',
@@ -34,8 +64,8 @@ export default function Navbar() {
   return (
     <nav style={navStyle}>
       <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', zIndex: 5000 }} onClick={() => setIsMenuOpen(false)}>
-          <TransparentLogo src="/logo.png" height={isScrolled ? "60px" : "85px"} />
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', zIndex: 1000002 }} onClick={() => setIsMenuOpen(false)}>
+          <TransparentLogo src="/logo.png" height={logoHeight} />
         </Link>
 
         {/* Desktop Links */}
@@ -57,41 +87,47 @@ export default function Navbar() {
         <button 
           className="mobile-toggle"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle Menu"
           style={{ 
-            display: 'none', border: 'none', background: 'transparent', cursor: 'pointer', zIndex: 5000,
-            padding: '10px'
+            display: 'none', border: 'none', background: 'transparent', cursor: 'pointer', zIndex: 1000002,
+            padding: '10px', boxShadow: 'none', outline: 'none', backgroundColor: 'transparent'
           }}
         >
-          <div style={{ width: '30px', height: '3px', background: '#111', margin: '6px 0', transition: '0.4s', transform: isMenuOpen ? 'rotate(-45deg) translate(-7px, 6px)' : '' }}></div>
-          <div style={{ width: '30px', height: '3px', background: '#111', margin: '6px 0', opacity: isMenuOpen ? 0 : 1 }}></div>
-          <div style={{ width: '30px', height: '3px', background: '#111', margin: '6px 0', transition: '0.4s', transform: isMenuOpen ? 'rotate(45deg) translate(-7px, -6px)' : '' }}></div>
+          <div style={{ width: '28px', height: '2.5px', background: '#111', margin: '5px 0', transition: '0.4s', transform: isMenuOpen ? 'rotate(-45deg) translate(-6px, 5px)' : '' }}></div>
+          <div style={{ width: '28px', height: '2.5px', background: '#111', margin: '5px 0', opacity: isMenuOpen ? 0 : 1 }}></div>
+          <div style={{ width: '28px', height: '2.5px', background: '#111', margin: '5px 0', transition: '0.4s', transform: isMenuOpen ? 'rotate(45deg) translate(-6px, -5px)' : '' }}></div>
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <div style={{
         position: 'fixed', top: 0, right: 0, bottom: 0, left: 0,
-        background: 'white', zIndex: 4500, display: isMenuOpen ? 'flex' : 'none',
+        backgroundColor: '#ffffff', zIndex: 1000001, display: isMenuOpen ? 'flex' : 'none',
         flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-        padding: '100px 40px'
+        padding: '80px 30px'
       }}>
         <ul style={{ textAlign: 'center', width: '100%' }}>
           {navLinks.map((link) => (
-            <li key={link.name} style={{ margin: '2.5rem 0' }}>
+            <li key={link.name} style={{ margin: '1.5rem 0' }}>
               <Link href={link.href} 
-                    style={{ fontSize: '2rem', fontWeight: '900', color: '#111' }}
+                    style={{ fontSize: '1.6rem', fontWeight: '900', color: '#111', textTransform: 'uppercase' }}
                     onClick={() => setIsMenuOpen(false)}
               >{link.name}</Link>
             </li>
           ))}
         </ul>
-        <a href="https://wa.me/923054444125" className="btn btn-primary" style={{ width: '100%', marginTop: '2rem' }}>GET IN TOUCH</a>
+        <a href="https://wa.me/923054444125" className="btn btn-primary" style={{ width: '100%', marginTop: '2rem', maxWidth: '280px' }} onClick={() => setIsMenuOpen(false)}>GET IN TOUCH</a>
       </div>
 
       <style jsx>{`
         @media (max-width: 1024px) {
           .desktop-nav { display: none !important; }
           .mobile-toggle { display: block !important; }
+        }
+        :global(button.mobile-toggle) {
+          background-color: transparent !important;
+          background: transparent !important;
+          border: none !important;
         }
       `}</style>
     </nav>
