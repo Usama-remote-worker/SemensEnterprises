@@ -17,14 +17,19 @@ export default function TransparentLogo({ src, height }) {
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const data = imageData.data;
 
-      // Remove checkered pattern (near-white and light gray)
+      // Remove background (white, light gray, and checkerboard patterns)
       for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
         const g = data[i + 1];
         const b = data[i + 2];
-        // If the pixel is very light (white/gray checkers)
+        // If the pixel is very light (white to mid-gray)
+        // This covers most fake checkerboard patterns
         if (r > 200 && g > 200 && b > 200) {
           data[i + 3] = 0; // Make transparent
+        }
+        // Also remove specific gray found in some checkerboards
+        if (r > 180 && r < 200 && g > 180 && g < 200 && b > 180 && b < 200) {
+          data[i + 3] = 0;
         }
       }
       ctx.putImageData(imageData, 0, 0);

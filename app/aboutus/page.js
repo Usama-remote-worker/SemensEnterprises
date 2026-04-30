@@ -27,8 +27,8 @@ export default function About() {
               </div>
             </div>
             <div className="about-image">
-              <div className="img-card" style={{ height: '500px', borderRadius: '30px', boxShadow: '0 30px 60px rgba(0,0,0,0.15)' }}>
-                <img src="https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=800&q=80" alt="Laboratory research" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div className="img-card" style={{ height: '500px', borderRadius: '30px', boxShadow: '0 30px 60px rgba(0,0,0,0.15)', overflow: 'hidden' }}>
+                <img src="/projects/project-water.png" alt="Industrial engineering" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </div>
           </div>
@@ -50,19 +50,23 @@ export default function About() {
       <section style={{ padding: 'clamp(60px, 12vw, 100px) 0', background: '#f8fafa' }}>
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 5rem' }}>
-            <h2 style={{ fontSize: 'clamp(2.2rem, 6vw, 2.8rem)', fontWeight: '900', color: '#111', lineHeight: '1.1' }}>Our <span style={{ color: '#00A19D' }}>Commitment</span></h2>
+            <h2 style={{ fontSize: 'clamp(2.2rem, 6vw, 2.8rem)', fontWeight: '900', color: '#001e3c', lineHeight: '1.1' }}>Our <span style={{ color: '#00A19D' }}>Commitment</span></h2>
             <p style={{ fontSize: '1.15rem', color: '#666', lineHeight: '1.8', marginTop: '1.5rem' }}>We don't just sell chemicals; we deliver strategic solutions that enhance operational efficiency and environmental sustainability.</p>
           </div>
           <div className="commitment-grid">
             {[
-              { t: 'Innovation', d: 'Our R&D team continuously develops next-generation formulations for water treatment and textile processing.', icon: '🧪' },
-              { t: 'Reliability', d: 'Strict quality control at every stage of manufacturing ensures batch-to-batch consistency.', icon: '🛡️' },
-              { t: 'Partnership', d: 'We work closely with our industrial partners to solve their most complex chemical challenges.', icon: '🤝' }
+              { t: 'Innovation', d: 'Our R&D team continuously develops next-generation formulations for water treatment and textile processing.', img: '/products/cat-textile.png' },
+              { t: 'Reliability', d: 'Strict quality control at every stage of manufacturing ensures batch-to-batch consistency.', img: '/products/cat-parts.png' },
+              { t: 'Partnership', d: 'We work closely with our industrial partners to solve their most complex chemical challenges.', img: '/projects/project-boilers.png' }
             ].map((item) => (
-              <div key={item.t} className="card-hover" style={{ padding: '45px 30px', background: 'white', borderRadius: '30px', boxShadow: '0 10px 30px rgba(0,0,0,0.03)', textAlign: 'center' }}>
-                <div style={{ fontSize: '3.5rem', marginBottom: '1.5rem' }}>{item.icon}</div>
-                <h3 style={{ fontSize: '1.6rem', fontWeight: '800', marginBottom: '1.2rem', color: '#111' }}>{item.t}</h3>
-                <p style={{ color: '#666', lineHeight: '1.8', fontSize: '1.05rem' }}>{item.d}</p>
+              <div key={item.t} className="card-hover" style={{ background: 'white', borderRadius: '30px', boxShadow: '0 10px 30px rgba(0,0,0,0.03)', overflow: 'hidden' }}>
+                <div style={{ height: '180px' }}>
+                  <img src={item.img} alt={item.t} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <div style={{ padding: '40px 30px', textAlign: 'center' }}>
+                  <h3 style={{ fontSize: '1.6rem', fontWeight: '800', marginBottom: '1.2rem', color: '#001e3c' }}>{item.t}</h3>
+                  <p style={{ color: '#666', lineHeight: '1.8', fontSize: '1.05rem' }}>{item.d}</p>
+                </div>
               </div>
             ))}
           </div>

@@ -46,16 +46,26 @@ export default function Navbar() {
 
   const navStyle = {
     position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000000,
-    padding: isScrolled ? '8px 0' : (typeof window !== 'undefined' && window.innerWidth < 768 ? '12px 0' : '20px 0'),
-    background: (isScrolled || isMenuOpen) ? '#ffffff' : 'transparent',
-    transition: 'all 0.4s ease',
-    borderBottom: (isScrolled || isMenuOpen) ? '1px solid rgba(0,0,0,0.05)' : 'none',
-    boxShadow: (isScrolled || isMenuOpen) ? '0 4px 30px rgba(0,0,0,0.08)' : 'none',
+    padding: '15px 0',
+    background: '#ffffff',
+    transition: 'all 0.3s ease',
+    borderBottom: '1px solid rgba(0,0,0,0.06)',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
   };
 
   const navLinks = [
     { name: 'HOME', href: '/' },
-    { name: 'PRODUCTS', href: '/products' },
+    { 
+      name: 'PRODUCTS & SERVICES', 
+      href: '/products',
+      dropdown: [
+        { name: 'Textile Solutions', href: '/products' },
+        { name: 'Management Systems', href: '/products' },
+        { name: 'Industrial Plant Solutions', href: '/products' },
+        { name: 'Engineering Services', href: '/products' },
+        { name: 'Specialized Cleaning Chemicals', href: '/products' },
+      ]
+    },
     { name: 'SAMPLES', href: '/samples' },
     { name: 'ABOUT US', href: '/aboutus' },
     { name: 'BLOG', href: '/blog' },
@@ -63,24 +73,71 @@ export default function Navbar() {
 
   return (
     <nav style={navStyle}>
-      <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', zIndex: 1000002 }} onClick={() => setIsMenuOpen(false)}>
-          <TransparentLogo src="/logo.png" height={logoHeight} />
-        </Link>
+      <div className="container" style={{ 
+        display: 'grid', 
+        gridTemplateColumns: typeof window !== 'undefined' && window.innerWidth < 1024 ? '1fr auto' : '1fr auto 1fr', 
+        alignItems: 'center', 
+        maxWidth: '1400px' 
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', zIndex: 1000002 }} onClick={() => setIsMenuOpen(false)}>
+            <div style={{ 
+              background: 'transparent', 
+              padding: '0', 
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.3s ease'
+            }}>
+              <TransparentLogo src="/logo.png" height={isScrolled ? "60px" : "80px"} />
+            </div>
+          </Link>
+        </div>
 
-        {/* Desktop Links */}
-        <div className="desktop-nav" style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
-          <ul style={{ display: 'flex', gap: '2.2rem', fontWeight: '800', fontSize: '0.9rem', color: '#111' }}>
+        {/* Desktop Links - Centered */}
+        <div className="desktop-nav" style={{ display: 'flex', justifyContent: 'center' }}>
+          <ul style={{ display: 'flex', gap: '2.5rem', fontWeight: '800', fontSize: '0.85rem', color: '#111' }}>
             {navLinks.map((link) => (
-              <li key={link.name}>
-                <Link href={link.href} style={{ transition: 'color 0.3s' }}
+              <li key={link.name} className="nav-item" style={{ position: 'relative' }}>
+                <Link href={link.href} style={{ transition: 'all 0.3s', display: 'flex', alignItems: 'center', gap: '5px', color: '#111' }}
                       onMouseEnter={e => e.target.style.color = '#00A19D'}
                       onMouseLeave={e => e.target.style.color = '#111'}
-                >{link.name}</Link>
+                >
+                  {link.name}
+                  {link.dropdown && <span style={{ fontSize: '0.6rem' }}>▼</span>}
+                </Link>
+                {link.dropdown && (
+                  <ul className="dropdown" style={{
+                    position: 'absolute', top: '100%', left: '0', background: 'white',
+                    minWidth: '280px', padding: '15px 0', borderRadius: '12px',
+                    boxShadow: '0 10px 40px rgba(0,0,0,0.1)', border: '1px solid #eee',
+                    display: 'none', flexDirection: 'column', marginTop: '10px'
+                  }}>
+                    {link.dropdown.map(sub => (
+                      <li key={sub.name}>
+                        <Link href={sub.href} style={{ 
+                          display: 'block', padding: '10px 25px', color: '#555', 
+                          fontSize: '0.85rem', fontWeight: '700', transition: '0.3s' 
+                        }}
+                        onMouseEnter={e => { e.target.style.background = '#f8fafa'; e.target.style.color = '#00A19D'; }}
+                        onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.color = '#555'; }}
+                        >{sub.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>
-          <a href="https://wa.me/923054444125" className="btn btn-primary" style={{ padding: '12px 28px', borderRadius: '50px' }}>GET IN TOUCH</a>
+        </div>
+
+        <div className="desktop-nav" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+          <img src="/iso-certified.png" alt="ISO 9001:2015 Certified" style={{ 
+            height: isScrolled ? '50px' : '65px', 
+            width: 'auto',
+            filter: 'drop-shadow(0 5px 15px rgba(0,0,0,0.1))',
+            transition: 'all 0.4s ease'
+          }} />
         </div>
 
         {/* Hamburger Icon */}
@@ -90,7 +147,7 @@ export default function Navbar() {
           aria-label="Toggle Menu"
           style={{ 
             display: 'none', border: 'none', background: 'transparent', cursor: 'pointer', zIndex: 1000002,
-            padding: '10px', boxShadow: 'none', outline: 'none', backgroundColor: 'transparent'
+            padding: '10px', marginLeft: 'auto'
           }}
         >
           <div style={{ width: '28px', height: '2.5px', background: '#111', margin: '5px 0', transition: '0.4s', transform: isMenuOpen ? 'rotate(-45deg) translate(-6px, 5px)' : '' }}></div>
@@ -116,10 +173,15 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
-        <a href="https://wa.me/923054444125" className="btn btn-primary" style={{ width: '100%', marginTop: '2rem', maxWidth: '280px' }} onClick={() => setIsMenuOpen(false)}>GET IN TOUCH</a>
+        <div style={{ marginTop: '2rem' }}>
+          <img src="/iso-certified.png" alt="ISO 9001:2015 Certified" style={{ height: '80px', width: 'auto' }} />
+        </div>
       </div>
 
       <style jsx>{`
+        .nav-item:hover .dropdown {
+          display: flex !important;
+        }
         @media (max-width: 1024px) {
           .desktop-nav { display: none !important; }
           .mobile-toggle { display: block !important; }
