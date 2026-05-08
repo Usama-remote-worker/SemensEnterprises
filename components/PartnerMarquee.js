@@ -13,9 +13,9 @@ function PartnerCard({ partner }) {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      background: '#fff',
-      border: `1px solid ${partner.color}15`,
-      boxShadow: '0 5px 15px rgba(0,0,0,0.02)',
+      background: '#ffffff',
+      border: '1px solid rgba(0,119,182,0.1)',
+      boxShadow: '0 4px 16px rgba(0,43,73,0.05)',
       padding: '12px',
       position: 'relative',
       overflow: 'hidden'
@@ -115,10 +115,10 @@ export default function PartnerMarquee() {
   );
 
   return (
-    <section style={{ padding: '80px 0', background: '#ffffff', overflow: 'hidden', borderTop: '1px solid #f0f0f0' }}>
+    <section style={{ padding: '80px 0', background: '#F0F8FF', overflow: 'hidden', borderTop: '1px solid rgba(0,119,182,0.08)' }}>
       <div className="container" style={{ marginBottom: '50px', textAlign: 'center' }}>
-        <p style={{ color: '#00A19D', fontWeight: '800', letterSpacing: '4px', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '12px' }}>Our Strategic Partners</p>
-        <h2 style={{ fontSize: 'clamp(2rem, 5vw, 2.8rem)', fontWeight: '900', color: '#111', letterSpacing: '-1px', lineHeight: 1.2 }}>Powering Global Industrial Excellence</h2>
+        <p style={{ color: '#0077B6', fontWeight: '800', letterSpacing: '4px', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '12px' }}>Our Strategic Partners</p>
+        <h2 style={{ fontSize: 'clamp(2rem, 5vw, 2.8rem)', fontWeight: '900', color: '#002B49', letterSpacing: '-1px', lineHeight: 1.2 }}>Trusted by Industry <span style={{ color: '#00B4D8' }}>Leaders</span></h2>
       </div>
 
       <div style={{ position: 'relative' }}>
@@ -129,8 +129,8 @@ export default function PartnerMarquee() {
           <MarqueeRow items={row2} reverse={true} />
         </div>
 
-        <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '200px', background: 'linear-gradient(to right, #ffffff, transparent)', zIndex: 2 }}></div>
-        <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '200px', background: 'linear-gradient(to left, #ffffff, transparent)', zIndex: 2 }}></div>
+        <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '200px', background: 'linear-gradient(to right, #F0F8FF, transparent)', zIndex: 2 }}></div>
+        <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '200px', background: 'linear-gradient(to left, #F0F8FF, transparent)', zIndex: 2 }}></div>
       </div>
 
       <style jsx>{`
